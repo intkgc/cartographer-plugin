@@ -1,0 +1,13 @@
+name: Cartographer
+version: '${version}'
+main: com.jvmfrog.cartographer.Cartographer
+api-version: 1.19
+prefix: Cartographer
+authors: [ KirboGames ]
+description: The plugin adds the ability to create labels with coordinates in the achievements tree
+website: https://github.com/JVMFrog
+depend:
+  - PlaceholderAPI
+commands:
+  crt:
+    description: xd

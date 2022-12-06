@@ -44,9 +44,9 @@ public class Translator {
             \t\t\t"trigger": "minecraft:tick"
             \t\t}
             \t}""";
-    private static boolean SHOW_TOAST = true;
-    private static boolean ANNOUNCE_TO_CHAT = false;
-    private static boolean HIDDEN = false;
+    public static boolean SHOW_TOAST = true;
+    public static boolean ANNOUNCE_TO_CHAT = false;
+    public static boolean HIDDEN = false;
 
     public static String translate(YamlConfiguration label) {
         StringBuilder builder = new StringBuilder();

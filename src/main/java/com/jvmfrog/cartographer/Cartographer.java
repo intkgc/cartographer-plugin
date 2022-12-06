@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 public final class Cartographer extends JavaPlugin {
@@ -36,6 +37,11 @@ public final class Cartographer extends JavaPlugin {
         x.loadFromString(TEST);
 
         System.out.println("\n" + Translator.translate(x));
+
+        File configFile = new File(this.getDataFolder(), "config.yml");
+        if (!configFile.exists()) {
+            this.saveDefaultConfig();
+        }
 
         Bukkit.getPluginManager().registerEvents(new MainChatListener(), this);
     }

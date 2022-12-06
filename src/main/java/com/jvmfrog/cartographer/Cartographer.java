@@ -20,6 +20,9 @@ public final class Cartographer extends JavaPlugin {
             name: Шиза
             description: КЕК
             icon: [lectern]
+            box_start: [0, 10, 10]
+            box_end: [10, 20, 0]
+            dim: overworld
             """;
 
     @SneakyThrows
@@ -27,7 +30,7 @@ public final class Cartographer extends JavaPlugin {
     public void onEnable() {
         instance = this;
         jlogger = super.getLogger();
-
+        System.out.println(12 & 23);
         YamlConfiguration x = new YamlConfiguration();
         x.loadFromString(TEST);
 

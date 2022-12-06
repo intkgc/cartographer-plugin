@@ -1,23 +1,49 @@
 package com.jvmfrog.cartographer.translator;
 
+import com.jvmfrog.cartographer.exception.BoxException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.List;
 
 public class Translator {
     private static final String DISPLAY_OBJ = """
-            "display": {
-                "icon": {
-                    "item": "minecraft:%s",
-                    "nbt": "%s"
-                },
-                "title": "%s",
-                "description": "%s",
-                "show_toast": %b,
-                "announce_to_chat": %b,
-                "hidden": %b
-                }""";
-
+            \t"display": {
+            \t\t"icon": {
+            \t\t\t"item": "minecraft:%s",
+            \t\t\t"nbt": "%s"
+            \t\t},
+            \t\t"title": "%s",
+            \t\t"description": "%s",
+            \t\t"show_toast": %b,
+            \t\t"announce_to_chat": %b,
+            \t\t"hidden": %b
+            \t},
+            """;
+    private static final String BOX_TEMPLATE = """
+            \t"criteria": {
+            \t\t"requirement": {
+            \t\t\t"trigger": "minecraft:location",
+            \t\t\t"conditions": {
+            \t\t\t\t"location": {
+            \t\t\t\t\t"position": {
+            %s
+            \t\t\t\t\t\t"dimension": "minecraft:%s"
+            \t\t\t\t\t}
+            \t\t\t\t}
+            \t\t\t}
+            \t\t}
+            \t}""";
+    private static final String POSITION_TEMPLATE = """
+            \t\t\t\t\t\t"%c": {
+            \t\t\t\t\t\t\t"min": %d
+            \t\t\t\t\t\t\t"max": %d
+            \t\t\t\t\t\t}""";
+    private static final String TICK_CRITERIA = """
+            \t"criteria": {
+            \t\t"trigger": {
+            \t\t\t"trigger": "minecraft:tick"
+            \t\t}
+            \t}""";
     private static boolean SHOW_TOAST = true;
     private static boolean ANNOUNCE_TO_CHAT = false;
     private static boolean HIDDEN = false;
@@ -39,11 +65,32 @@ public class Translator {
                         label.getBoolean("hidden", HIDDEN)
                 ));
 
+        List<Integer> boxStart = label.getIntegerList("box_start");
+        List<Integer> boxEnd = label.getIntegerList("box_end");
+        if (boxStart.size() == boxEnd.size()) {
+            StringBuilder position = new StringBuilder();
+            if (boxStart.size() == 3) {
+                position.append(formatPositionString('x', boxStart.get(0), boxEnd.get(0)))
+                        .append(",\n");
+                position.append(formatPositionString('y', boxStart.get(1), boxEnd.get(1)))
+                        .append(",\n");
+                position.append(formatPositionString('z', boxStart.get(2), boxEnd.get(2)))
+                        .append(",");
+                builder.append(String.format(BOX_TEMPLATE, position, label.getString("dim")));
+            } else if (boxStart.size() != 0)
+                throw new BoxException("Array must contain 3 elements");
+        } else throw new BoxException("Array sizes do not match");
+        if (boxStart.size() == 0) {
+            builder.append(TICK_CRITERIA);
+        }
         builder.append("\n}");
         return builder.toString();
     }
 
-    public static String getRoot() {
-        return "";
+    private static String formatPositionString(char coordinate, int start, int end) {
+        return String.format(POSITION_TEMPLATE,
+                coordinate,
+                Math.min(start, end),
+                Math.max(start, end));
     }
 }

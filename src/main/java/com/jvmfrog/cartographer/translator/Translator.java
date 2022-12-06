@@ -83,6 +83,11 @@ public class Translator {
         if (boxStart.size() == 0) {
             builder.append(TICK_CRITERIA);
         }
+        if (label.getString("parent") != null) {
+            builder.append(String.format("""
+                    "parent":"%s",""", label.getString("parent")));
+        }
+
         builder.append("\n}");
         return builder.toString();
     }

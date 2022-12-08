@@ -85,7 +85,8 @@ public class Translator {
         }
         if (label.getString("parent") != null) {
             builder.append(String.format("""
-                    "parent":"%s",""", label.getString("parent")));
+                    ,
+                    \t"parent":"%s\"""", label.getString("parent")));
         }
 
         builder.append("\n}");

@@ -35,7 +35,7 @@ public class Translator {
             \t}""";
     private static final String POSITION_TEMPLATE = """
             \t\t\t\t\t\t"%c": {
-            \t\t\t\t\t\t\t"min": %d
+            \t\t\t\t\t\t\t"min": %d,
             \t\t\t\t\t\t\t"max": %d
             \t\t\t\t\t\t}""";
     private static final String TICK_CRITERIA = """
@@ -57,7 +57,7 @@ public class Translator {
         builder.append(
                 String.format(DISPLAY_OBJ,
                         icon.get(0),
-                        icon.size() > 1 ? icon.get(1) : "",
+                        icon.size() > 1 ? icon.get(1) : "{}",
                         label.getString("name"),
                         label.getString("description"),
                         label.getBoolean("show_toast", SHOW_TOAST),
@@ -86,7 +86,7 @@ public class Translator {
         if (label.getString("parent") != null) {
             builder.append(String.format("""
                     ,
-                    \t"parent":"%s\"""", label.getString("parent")));
+                    \t"parent":"%s\"""", "cartographer_plugin:" + label.getString("parent")));
         }
 
         builder.append("\n}");

@@ -1,11 +1,11 @@
 package com.jvmfrog.cartographer;
 
+import com.jvmfrog.cartographer.config.Config;
+import com.jvmfrog.cartographer.datapack.DatapackBuilder;
 import com.jvmfrog.cartographer.listeners.chat.MainChatListener;
-import com.jvmfrog.cartographer.translator.Translator;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -16,6 +16,8 @@ public final class Cartographer extends JavaPlugin {
     private static Cartographer instance;
     @Getter
     private static Logger jlogger;
+    @Getter
+    private static Config pConfig;
 
     private static String TEST = """
             name: Шиза
@@ -27,21 +29,15 @@ public final class Cartographer extends JavaPlugin {
             parent: f:шиза
             """;
 
+
     @SneakyThrows
     @Override
     public void onEnable() {
         instance = this;
         jlogger = super.getLogger();
+        pConfig = new Config(getDataFolder());
 
-        YamlConfiguration x = new YamlConfiguration();
-        x.loadFromString(TEST);
-
-        System.out.println("\n" + Translator.translate(x));
-
-        File configFile = new File(this.getDataFolder(), "config.yml");
-        if (!configFile.exists()) {
-            this.saveDefaultConfig();
-        }
+        DatapackBuilder.build(pConfig.getLabelsDir(), new File(getDataFolder(), "../../world/datapacks/test"));
 
         Bukkit.getPluginManager().registerEvents(new MainChatListener(), this);
     }

@@ -15,6 +15,7 @@ public class Translator {
             \t\t},
             \t\t"title": "%s",
             \t\t"description": "%s",
+            \t\t"background": "%s",
             \t\t"show_toast": %b,
             \t\t"announce_to_chat": %b,
             \t\t"hidden": %b
@@ -59,6 +60,7 @@ public class Translator {
                         icon.size() > 1 ? icon.get(1) : "{}",
                         label.getString("name"),
                         label.getString("description"),
+                        label.getString("background", null),
                         label.getBoolean("show_toast", Config.isShowToast()),
                         label.getBoolean("announce_to_chat", Config.isAnnounceToChat()),
                         label.getBoolean("hidden", Config.isHidden())
@@ -87,7 +89,6 @@ public class Translator {
                     ,
                     \t"parent":"%s\"""", "cartographer_plugin:" + label.getString("parent")));
         }
-
         builder.append("\n}");
         return builder.toString();
     }

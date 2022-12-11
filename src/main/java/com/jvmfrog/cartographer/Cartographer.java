@@ -45,7 +45,7 @@ public final class Cartographer extends JavaPlugin {
     public void buildDatapack() throws IOException, InvalidConfigurationException {
         if (Config.getWorld() != null)
             DatapackBuilder.build(pConfig.getLabelsDir(), new File(getServer().getWorldContainer().getAbsoluteFile(),
-                    String.format("%s/datapacks/test", Config.getWorld())));
+                    String.format("%s/datapacks/cartographer", Config.getWorld())));
         else jlogger.warning("world folder not set");
     }
 

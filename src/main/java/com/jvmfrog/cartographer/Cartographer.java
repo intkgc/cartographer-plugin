@@ -6,9 +6,11 @@ import com.jvmfrog.cartographer.listeners.chat.MainChatListener;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public final class Cartographer extends JavaPlugin {
@@ -36,10 +38,20 @@ public final class Cartographer extends JavaPlugin {
         instance = this;
         jlogger = super.getLogger();
         pConfig = new Config(getDataFolder());
-
-        DatapackBuilder.build(pConfig.getLabelsDir(), new File(getDataFolder(), "../../world/datapacks/test"));
-
         Bukkit.getPluginManager().registerEvents(new MainChatListener(), this);
+        buildDatapack();
+    }
+
+    public void buildDatapack() throws IOException, InvalidConfigurationException {
+        if (Config.getWorld() != null)
+            DatapackBuilder.build(pConfig.getLabelsDir(), new File(getServer().getWorldContainer().getAbsoluteFile(),
+                    String.format("%s/datapacks/test", Config.getWorld())));
+        else jlogger.warning("world folder not set");
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
     }
 
     @Override

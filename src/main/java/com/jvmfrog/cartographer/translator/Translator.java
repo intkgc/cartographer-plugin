@@ -1,5 +1,6 @@
 package com.jvmfrog.cartographer.translator;
 
+import com.jvmfrog.cartographer.config.Config;
 import com.jvmfrog.cartographer.exception.BoxException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -44,9 +45,7 @@ public class Translator {
             \t\t\t"trigger": "minecraft:tick"
             \t\t}
             \t}""";
-    public static boolean SHOW_TOAST = true;
-    public static boolean ANNOUNCE_TO_CHAT = false;
-    public static boolean HIDDEN = false;
+
 
     public static String translate(YamlConfiguration label) {
         StringBuilder builder = new StringBuilder();
@@ -60,9 +59,9 @@ public class Translator {
                         icon.size() > 1 ? icon.get(1) : "{}",
                         label.getString("name"),
                         label.getString("description"),
-                        label.getBoolean("show_toast", SHOW_TOAST),
-                        label.getBoolean("announce_to_chat", ANNOUNCE_TO_CHAT),
-                        label.getBoolean("hidden", HIDDEN)
+                        label.getBoolean("show_toast", Config.isShowToast()),
+                        label.getBoolean("announce_to_chat", Config.isAnnounceToChat()),
+                        label.getBoolean("hidden", Config.isHidden())
                 ));
 
         List<Integer> boxStart = label.getIntegerList("box_start");

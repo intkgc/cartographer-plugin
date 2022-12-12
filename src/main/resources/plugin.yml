@@ -8,12 +8,13 @@ description: The plugin adds the ability to create labels with coordinates in th
 website: https://github.com/JVMFrog
 depend:
   - PlaceholderAPI
+  - NBTAPI
 commands:
   newlabel:
     description: Main
-    aliases: [ clabel ]
+    aliases: [ nlabel, clabel ]
     permission: cartographer
-    usage: "Usage: /<command> [test|stop]"
+    usage: "Usage: /<command> id parent"
 permissions:
   cartographer:
     description: Allown cartographer function

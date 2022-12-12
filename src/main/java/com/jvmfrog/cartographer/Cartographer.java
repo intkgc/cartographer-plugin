@@ -3,17 +3,23 @@ package com.jvmfrog.cartographer;
 import com.jvmfrog.cartographer.config.Config;
 import com.jvmfrog.cartographer.datapack.DatapackBuilder;
 import com.jvmfrog.cartographer.listeners.chat.MainChatListener;
+import com.jvmfrog.cartographer.ui.LabelClickListener;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public final class Cartographer extends JavaPlugin {
+public final class Cartographer extends JavaPlugin implements Listener {
     @Getter
     private static Cartographer instance;
     @Getter
@@ -39,6 +45,8 @@ public final class Cartographer extends JavaPlugin {
         jlogger = super.getLogger();
         pConfig = new Config(getDataFolder());
         Bukkit.getPluginManager().registerEvents(new MainChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(this, this);
+        Bukkit.getPluginManager().registerEvents(new LabelClickListener(), this);
         buildDatapack();
     }
 
@@ -49,9 +57,9 @@ public final class Cartographer extends JavaPlugin {
         else jlogger.warning("world folder not set");
     }
 
-    @Override
-    public void reloadConfig() {
-        super.reloadConfig();
+    @EventHandler
+    public void openGUI(PlayerJoinEvent event) {
+
     }
 
     @Override

@@ -9,5 +9,12 @@ website: https://github.com/JVMFrog
 depend:
   - PlaceholderAPI
 commands:
-  crt:
-    description: xd
+  newlabel:
+    description: Main
+    aliases: [ clabel ]
+    permission: cartographer
+    usage: "Usage: /<command> [test|stop]"
+permissions:
+  cartographer:
+    description: Allown cartographer function
+    default: op
